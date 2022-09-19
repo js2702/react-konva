@@ -28,14 +28,9 @@ export function appendInitialChild(parentInstance, child) {
   updatePicture(parentInstance);
 }
 
+const primitiveType = 'primitive'
+
 export function createInstance(type, props, internalInstanceHandle) {
-  let NodeClass = Konva[type];
-  if (!NodeClass) {
-    console.error(
-      `Konva has no node with the type ${type}. Group will be used instead. If you use minimal version of react-konva, just import required nodes into Konva: "import "konva/lib/shapes/${type}"  If you want to render DOM elements as part of canvas tree take a look into this demo: https://konvajs.github.io/docs/react/DOM_Portal.html`
-    );
-    NodeClass = Konva.Group;
-  }
 
   // we need to split props into events and non events
   // we we can pass non events into constructor directly
@@ -47,7 +42,9 @@ export function createInstance(type, props, internalInstanceHandle) {
   const propsWithOnlyEvents = {};
 
   for (var key in props) {
-    var isEvent = key.slice(0, 2) === 'on';
+    if (key === primitiveType) continue
+
+    var isEvent = key.slice(0, 2) === "on";
     if (isEvent) {
       propsWithOnlyEvents[key] = props[key];
     } else {
@@ -55,7 +52,21 @@ export function createInstance(type, props, internalInstanceHandle) {
     }
   }
 
-  const instance = new NodeClass(propsWithoutEvents);
+  let instance: any
+  if (type === primitiveType) {
+    if (props.object === undefined) throw new Error("react-konva: Primitives without 'object' are invalid!")
+    instance = props.object
+  } else {
+    let NodeClass = Konva[type];
+    if (!NodeClass) {
+      console.error(
+        `Konva has no node with the type ${type}. Group will be used instead. If you use minimal version of react-konva, just import required nodes into Konva: "import "konva/lib/shapes/${type}"  If you want to render DOM elements as part of canvas tree take a look into this demo: https://konvajs.github.io/docs/react/DOM_Portal.html`
+      );
+      NodeClass = Konva.Group;
+    }
+
+    instance = new NodeClass(propsWithoutEvents);
+  }
 
   applyNodeProps(instance, propsWithOnlyEvents);
 
