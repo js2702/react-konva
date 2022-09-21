@@ -107,6 +107,8 @@ export const RegularPolygon = 'RegularPolygon';
 export const Arrow = 'Arrow';
 export const Shape = 'Shape';
 export const Transformer = 'Transformer';
+export const Primitive = 'Primitive'
+
 
 export const KonvaRenderer = ReactFiberReconciler(HostConfig);
 

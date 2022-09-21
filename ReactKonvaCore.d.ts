@@ -88,6 +88,7 @@ export var RegularPolygon: KonvaNodeComponent<
 >;
 export var Arrow: KonvaNodeComponent<Konva.Arrow, Konva.ArrowConfig>;
 export var Shape: KonvaNodeComponent<Konva.Shape, Konva.ShapeConfig>;
+export var Primitive: KonvaNodeComponent<Konva.Node, React.PropsWithChildren<{object: Konva.Node}>>;
 
 export var useStrictMode: (useStrictMode: boolean) => void;
 export var KonvaRenderer: ReactReconciler.Reconciler<any, any, any, any, any>

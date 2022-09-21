@@ -7,6 +7,7 @@ export {
   unstable_runWithPriority as run,
 } from 'scheduler';
 import { DefaultEventPriority } from 'react-reconciler/constants';
+import { Primitive } from './ReactKonvaCore';
 
 const NO_CONTEXT = {};
 const UPDATE_SIGNAL = {};
@@ -28,7 +29,6 @@ export function appendInitialChild(parentInstance, child) {
   updatePicture(parentInstance);
 }
 
-const primitiveType = 'primitive'
 
 export function createInstance(type, props, internalInstanceHandle) {
 
@@ -42,7 +42,7 @@ export function createInstance(type, props, internalInstanceHandle) {
   const propsWithOnlyEvents = {};
 
   for (var key in props) {
-    if (key === primitiveType) continue
+    if (key === Primitive) continue
 
     var isEvent = key.slice(0, 2) === "on";
     if (isEvent) {
@@ -53,7 +53,7 @@ export function createInstance(type, props, internalInstanceHandle) {
   }
 
   let instance: any
-  if (type === primitiveType) {
+  if (type === Primitive) {
     if (props.object === undefined) throw new Error("react-konva: Primitives without 'object' are invalid!")
     instance = props.object
   } else {
