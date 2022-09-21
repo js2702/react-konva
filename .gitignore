@@ -5,8 +5,8 @@ test/tests.bundle.js
 .DS_Store
 .idea
 .lock
-lib
-es
+# lib
+# es
 test-build
 .parcel-cache
 dist
